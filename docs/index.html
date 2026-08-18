@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>dino-run · Alexandre Quintiliano</title>
+<meta name="description" content="Um clone do dinossauro do Chrome em canvas puro, sem dependencias. Feito por Alexandre Quintiliano.">
+<meta name="theme-color" content="#0d1117">
+<meta property="og:title" content="dino-run">
+<meta property="og:description" content="Dinossauro do Chrome em canvas puro. Espaco para pular, seta para baixo para abaixar.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' fill='%230d1117'/><path fill='%2339d353' d='M14 2h6v3h-6zM13 5h8v9h-8zM15 7h1v1h-1zM0 9h2v9H0zM2 11h3v7H2zM5 13h16v6H5zM7 19h4v5H7zM14 19h4v5h-4z'/></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="wrap">
+
+  <header class="head">
+    <a class="back" href="https://github.com/alexandrequintiliano95">&larr; github.com/alexandrequintiliano95</a>
+    <h1>dino<span>-run</span></h1>
+    <p class="sub">
+      Canvas puro, zero dependências. Os sprites são os mesmos que desenham o dino do meu README.
+      <span lang="en">Plain canvas, zero dependencies. Same sprites that draw the dino on my README.</span>
+    </p>
+  </header>
+
+  <section class="console" aria-label="Jogo">
+    <div class="bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="bar-title">dino-run — running</span>
+    </div>
+
+    <div class="screen">
+      <div class="hud">
+        <span class="hud-item">HI <b id="hi">00000</b></span>
+        <span class="hud-item">SCORE <b id="score">00000</b></span>
+      </div>
+      <canvas id="game" width="660" height="200" aria-label="Área do jogo"></canvas>
+      <div id="overlay" class="overlay">
+        <strong id="overlay-title">dino-run</strong>
+        <p id="overlay-hint"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="keys" aria-label="Controles">
+    <div><kbd>Espaço</kbd><kbd>↑</kbd> pular <span lang="en">/ jump</span></div>
+    <div><kbd>↓</kbd> abaixar <span lang="en">/ duck</span></div>
+    <div><kbd>toque</kbd> em cima pula, embaixo abaixa <span lang="en">/ tap top to jump, bottom to duck</span></div>
+  </section>
+
+  <footer class="foot">
+    <p>
+      Solte o pulo cedo para saltar mais baixo. Pterodátilos aparecem depois de 150 pontos e a
+      noite cai a cada 400.
+      <span lang="en">Release jump early for a shorter hop. Pterodactyls show up after 150 points; night falls every 400.</span>
+    </p>
+    <p class="src">
+      <a href="https://github.com/alexandrequintiliano95/alexandrequintiliano95/tree/main/docs" target="_blank" rel="noopener noreferrer">código-fonte</a>
+      ·
+      <a href="https://alexandrequintiliano.com.br" target="_blank" rel="noopener noreferrer">alexandrequintiliano.com.br</a>
+      ·
+      <a href="https://www.linkedin.com/in/alexandrequintiliano/" target="_blank" rel="noopener noreferrer">linkedin</a>
+    </p>
+  </footer>
+
+</main>
+
+<script type="module" src="game.js"></script>
+</body>
+</html>

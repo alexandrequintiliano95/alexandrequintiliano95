@@ -1,0 +1,5 @@
+# Artefatos locais do editor/agente
+.claude/
+
+# Saida temporaria dos geradores de SVG (a Action publica na branch output)
+dist/

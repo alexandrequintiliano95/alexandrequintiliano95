@@ -1,0 +1,74 @@
+name: readme-assets
+
+# Gera as imagens dinamicas do README e publica todas na branch `output`:
+#   snake-light.svg / snake-dark.svg -> cobrinha comendo o grafico de contribuicoes
+#   stats.svg                        -> card de estatisticas lido da API do GitHub
+#
+# Os dois vivem no MESMO workflow de proposito. A acao de publicacao sincroniza
+# o diretorio inteiro com a branch, entao dois workflows publicando em `output`
+# se apagariam mutuamente. Um job, um push, sem corrida.
+#
+# A branch `output` existe so para guardar imagem gerada: a `main` fica limpa,
+# sem commit de robo no historico.
+#
+# Requisito unico no repositorio:
+#   Settings > Actions > General > Workflow permissions = "Read and write permissions"
+
+on:
+  schedule:
+    - cron: "0 5 * * *"   # todo dia as 05:00 UTC (02:00 em Brasilia)
+  workflow_dispatch:       # botao manual na aba Actions
+  push:
+    branches:
+      - main               # gera na hora do primeiro push
+
+concurrency:
+  group: readme-assets
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Escreve dist/snake-light.svg e dist/snake-dark.svg.
+      # Cobra azul sobre pontos verdes: contraste alto nos dois temas do GitHub.
+      - name: Gerar a cobrinha
+        uses: Platane/snk@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/snake-light.svg?palette=github-light&color_snake=#0969da&color_dots=#ebedf0,#9be9a8,#40c463,#30a14e,#216e39
+            dist/snake-dark.svg?palette=github-dark&color_snake=#58a6ff&color_dots=#161b22,#0e4429,#006d32,#26a641,#39d353
+
+      # Acrescenta dist/stats.svg ao mesmo diretorio, antes de publicar.
+      - name: Gerar o card de estatisticas
+        run: node tools/build-stats.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_LOGIN: ${{ github.repository_owner }}
+          OUT: dist/stats.svg
+
+      - name: Conferir que os tres arquivos existem
+        run: |
+          set -e
+          for f in dist/snake-light.svg dist/snake-dark.svg dist/stats.svg; do
+            test -s "$f" || { echo "faltou ou vazio: $f"; exit 1; }
+            echo "ok $(wc -c < "$f") bytes  $f"
+          done
+
+      - name: Publicar na branch output
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
