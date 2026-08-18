@@ -49,6 +49,12 @@ jobs:
             dist/snake-light.svg?palette=github-light&color_snake=#0969da&color_dots=#ebedf0,#9be9a8,#40c463,#30a14e,#216e39
             dist/snake-dark.svg?palette=github-dark&color_snake=#58a6ff&color_dots=#161b22,#0e4429,#006d32,#26a641,#39d353
 
+      # Platane/snk e uma action Docker: roda como root e cria dist/ pertencente
+      # ao root. O passo seguinte roda como o usuario `runner` e recebe EACCES ao
+      # tentar escrever ali. Devolver a pasta ao runner resolve.
+      - name: Devolver dist/ ao usuario do runner
+        run: mkdir -p dist && sudo chown -R "$(id -u):$(id -g)" dist
+
       # Acrescenta dist/stats.svg ao mesmo diretorio, antes de publicar.
       - name: Gerar o card de estatisticas
         run: node tools/build-stats.mjs
