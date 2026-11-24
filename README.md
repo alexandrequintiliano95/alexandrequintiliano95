@@ -45,7 +45,7 @@ I'm currently studying **Systems Analysis and Development** at Uninter, graduati
 
 ```
 alexandre/
-├── backend/        PHP · Laravel · Python · Django
+├── backend/        PHP · Laravel · Python · Django · FastAPI
 ├── erp/            TOTVS Protheus · ADVPL — financeiro, estoque, faturamento, compras
 ├── integracoes/    CNAB 240 · PIX · boletos · importação CSV · portal ↔ ERP
 ├── frontend/       Vue.js (Inertia, Vuetify) · React · JavaScript
